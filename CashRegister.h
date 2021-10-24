@@ -6,13 +6,16 @@
 #define CHAFFEY2021F_CS2G1_9_09_CASHREGISTER_H
 #include <vector>
 
+static const int PRICE_FIELD_W = 5;
+static const int TAX_FIELD_W = 5;
+
 class CashRegister {
 public:
     /**
      * Constructor.
      * @param sales_tax_rate is the tax rate that will be applied to items which are taxed.
      */
-    explicit CashRegister(const double sales_tax_rate);
+    explicit CashRegister(double sales_tax_rate);
 
     /**
      * Resets the register to be ready for the next customer
@@ -35,7 +38,7 @@ public:
      * Gets the number of items in the current sale
      * @return the item count
      */
-    int get_count() const;
+    unsigned long long get_count() const;
 
     /**
      * Displays the prices of all items in the current sale.
@@ -46,7 +49,7 @@ public:
      * Add a price that will need tax added to it
      * @param item_price
      */
-    void add_taxable_item(const double item_price);
+    void add_taxable_item(double item_price);
 
     /**
      *
@@ -75,6 +78,7 @@ private:
 
     class Charge{
     public:
+        explicit Charge(int price_cents);
         Charge(int price_cents, int tax_cents);
         int get_price_cents() const;
         int get_tax_cents() const;
@@ -111,9 +115,14 @@ private:
     std::vector<Charge> sale{};
     std::vector<std::vector<Charge>> daily_sales{};
 
+    /**
+     * saves the current sale in the daily list of sales;
+     */
     void save_sale();
 
+    static void print_display_line(const std::string &rPrice_field, const std::string &rTaxField);
 
+    static std::string to_money_str(const int cents);
 };
 
 
