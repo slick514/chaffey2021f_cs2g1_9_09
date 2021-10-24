@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 /*
@@ -18,6 +18,7 @@ using namespace std;
  * outputs:
  */
 int main(int argc, char **argv) {
+    string thing = "";
     cout << "Hello 9.09" << endl;
     return 0;
 }
