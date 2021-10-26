@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include "CashRegister.h"
+#include "cashregistertest.h"
+
+void get_tax_rate(double rate);
 
 using namespace std;
 
@@ -8,27 +11,11 @@ using namespace std;
 /*
 
 
- * get total tax (sale)
+ * get total tax_cents (sale)
  * get (daily) sales total
  * get sales count
 
  */
-static const char SALE_MENU = 'S';
-static const char DAILY_MENU = 'D';
-static const char QUIT = 'Q';
-static const char EXIT = 'E';
-
-static const char NUMBER_OF_ITEMS = 'N';
-static const char SALE_TOTAL = 'S';
-static const char ADD_ITEM = 'I';
-static const char ADD_TAXABLE_ITEM = 'T';
-static const char TAX_TOTAL = 'X';
-static const char CLEAR = 'C';
-static const char DISPLAY = 'D';
-
-static const char DAILY_GROSS = 'G';
-static const char DAILY_SALES = 'N';
-static const char RESET = 'R';
 
 /*
  * Course: Chaffey College 2021-Fall CS2
@@ -47,14 +34,16 @@ static const char RESET = 'R';
  */
 int main(int argc, char **argv) {
     cout << "Hello 9.09" << endl;
-    CashRegister cr(.08);
-
-    do{
-
-    }while();
-
+    CashRegisterTest tester;
+    tester.run_tests();
+    tester.print_errors();
     return 0;
 }
+
+void get_tax_rate(double &rate) {
+
+}
+
 
 
 
