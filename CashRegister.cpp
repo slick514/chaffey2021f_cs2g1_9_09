@@ -122,6 +122,10 @@ void CashRegister::print_display_header() {
     print_display_line("Price", "Tax");
 }
 
+double CashRegister::get_tax_rate() const {
+    return this->tax_rate;
+}
+
 std::string to_money_str(const int cents) {
     double dollars = cents_to_dollars(cents);
     std::ostringstream stream;
@@ -155,4 +159,12 @@ int CashRegister::Charge::get_tax_cents() const {
 
 int CashRegister::Charge::get_price_cents() const {
     return this->price_cents;
+}
+
+void CashRegister::Charge::set_amount(const int &amt_cents){
+    this->price_cents = amt_cents;
+}
+
+void CashRegister::Charge::set_tax(const int &new_tax) {
+    this->tax_cents = new_tax;
 }

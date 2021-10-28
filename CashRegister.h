@@ -75,6 +75,12 @@ public:
      */
     void reset_sales();
 
+    /**
+     * accessor function for the tax_rate field;
+     * @return this object's tax-rate.
+     */
+    double get_tax_rate() const;
+
     class Charge{
     public:
         /**
@@ -90,6 +96,18 @@ public:
          * @param tax_cents the tax, in dollars
          */
         Charge(int price_cents, int tax_cents);
+
+        /**
+         * Sets the amount to a new value;
+         * @param amt_cents the amount of the new value;
+         */
+        void set_amount(const int &amt_cents);
+
+        /**
+         * Sets the tax to a new value
+         * @param new_tax the new tax value to be set
+         */
+        void set_tax(const int &new_tax);
 
         /**
          * @return a string representing the dollar amount of the price, including dollar-sign
