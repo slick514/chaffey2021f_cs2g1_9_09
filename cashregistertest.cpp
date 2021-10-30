@@ -319,7 +319,7 @@ int CashRegisterTest::dollars_to_cents_t() {
     return num_errs;
 }
 
-int CashRegisterTest::handle_test(DoesLogging *pLogger, const basic_string<char> &test_description, bool test_result) {
+int CashRegisterTest::handle_test(doeslogging *pLogger, const basic_string<char> &test_description, bool test_result) {
     pLogger->put_log(test_description, test_result);
     return !test_result ? 1 : 0;
 }

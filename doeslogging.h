@@ -9,12 +9,12 @@
 #include <vector>
 #include <string>
 
-class DoesLogging {
+class doeslogging {
 public:
     void print_logs() const;
     void print_errors() const;
     void put_log(const std::string &test_description, bool b_passes);
-    void compound(const DoesLogging &from_logs);
+    void compound(const doeslogging &from_logs);
 private:
     std::vector<std::string> error_logs;
     std::vector<std::string> logs;
