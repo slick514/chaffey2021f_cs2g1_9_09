@@ -235,8 +235,8 @@ vector<string> build_register_menu_items() {
 
 double get_sales_tax_from_user() {
     stringstream stream;
-    cout << "Please enter the sales tax as a decimal number in the form <##.##> %. ";
-    cout << "e.g., 8.5% would be written as \"8.5\":" << endl;
+    cout << "Please enter the sales tax as xx.xx(%)" << endl;
+    cout << "e.g., 8.5% would be entered as '8.5':" << endl;
     double rate;
     do {
         rate = read_in_double();
