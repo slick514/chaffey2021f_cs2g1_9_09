@@ -168,6 +168,8 @@ private:
     std::vector<Charge> sale;
     std::vector<Charge> daily_sales;
 
+    static void print_display_header();
+
     /**
      * Prints a display line showing price and tax
      * @param rPrice_field
