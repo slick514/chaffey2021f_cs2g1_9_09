@@ -178,7 +178,6 @@ void run_use_register() {
             default:
                 cout << "Your input, '" << choice << "', is not recognized. Please try again." << endl;
         }
-        cout << LINE_SEPARATOR;
     }while(!end_loop);
 }
 
