@@ -24,13 +24,15 @@
 
 CashRegister::CashRegister(const double sales_tax_rate) {
     this->tax_rate = sales_tax_rate;
+    this->daily_sales = {};
+    this->sale = {};
 }
 
-int dollars_to_cents(const double &rDollars) {
+int CashRegister::dollars_to_cents(const double &rDollars) {
     return (int)(rDollars * 100.0);
 }
 
-int CashRegister::get_sum_of_prices_cents(const std::vector<CashRegister::Charge> &rCharges) {
+int CashRegister::Charge::get_sum_of_prices_cents(const std::vector<Charge> &rCharges) {
     int sum {0};
     for(auto i : rCharges){
         sum += i.get_price_cents();
@@ -43,8 +45,8 @@ void CashRegister::reset_sales() {
     this->daily_sales = {};
 }
 
-int CashRegister::get_sum_of_taxes_cents(const std::vector<CashRegister::Charge> &rCharges) {
-    int sum {0};
+int CashRegister::Charge::get_sum_of_taxes_cents(const std::vector<Charge> &rCharges) {
+    int sum = 0;
     for(auto i : rCharges){
         sum += i.get_tax_cents();
     }
@@ -56,29 +58,20 @@ unsigned long long CashRegister::get_sales_count() const {
 }
 
 void CashRegister::clear() {
-    this->save_sale();
-    this->sale = {};
-}
-
-void CashRegister::save_sale() {
-    this->daily_sales.push_back(this->sale);
+    this->sale.clear();
 }
 
 double CashRegister::get_sales_total() const {
-    int total = 0;
-    for(const std::vector<Charge>& rCharge : this->daily_sales){
-        total += get_sum_of_prices_cents(rCharge);
-    }
-    return cents_to_dollars(total);
+    return cents_to_dollars(Charge::get_sum_of_prices_cents(this->daily_sales));
 }
 
-static double cents_to_dollars(const int &cents) {
+double CashRegister::cents_to_dollars(const int &cents) {
     double dollars { double(cents) };
     return dollars / 100.0;
 }
 
 double CashRegister::get_total_tax() const {
-    int tax_cents = get_sum_of_taxes_cents(this->sale);
+    int tax_cents = CashRegister::Charge::get_sum_of_taxes_cents(this->sale);
     return cents_to_dollars(tax_cents);
 }
 
@@ -87,16 +80,20 @@ void CashRegister::add_taxable_item(const double item_price) {
     int tax_cents = (int)(this->tax_rate * price_cents);
     Charge charge{price_cents, tax_cents};
     this->sale.push_back(charge);
+    this->daily_sales.push_back(charge);
 }
 
 void CashRegister::add_item(const double item_price) {
-    int cents = dollars_to_cents(item_price);
-    Charge charge{cents};
-    this->sale.push_back(charge);
+    if (item_price >= 0.01){
+        int cents = dollars_to_cents(item_price);
+        Charge charge{cents};
+        this->sale.push_back(charge);
+        this->daily_sales.push_back(charge);
+    }
 }
 
-double CashRegister::get_total() {
-    int cents = get_sum_of_prices_cents(this->sale);
+double CashRegister::get_total() const {
+    int cents = Charge::get_sum_of_prices_cents(this->sale);
     return cents_to_dollars(cents);
 }
 
@@ -105,32 +102,45 @@ unsigned long long CashRegister::get_count() const {
 }
 
 void CashRegister::display_all() const {
-    CashRegister::print_display_header();
+    print_display_header();
     for(const Charge &rC : this->sale){
         print_display_line(rC.get_price_dollars_str(), rC.get_tax_dollars_str());
     }
+    print_display_line("Total Sales", "Total Tax");
+    std::string sum_of_prices = to_money_str(this->get_total());
+    std::string sum_of_taxes = to_money_str(this->get_total_tax());
+    print_display_line(sum_of_prices, sum_of_taxes);
 }
 
 void CashRegister::print_display_line(const std::string &rPrice_field, const std::string &rTaxField){
-    std::cout << std::fixed << std::left;
-    std::cout << "| " << std::setw(PRICE_FIELD_W) << rPrice_field << " | " << std::setw(TAX_FIELD_W);
-    std::cout << rTaxField << " |" << std::endl;
+    std::cout << std::fixed << std::right;
+    std::cout << FIELD_START << std::setw(PRICE_FIELD_W) << rPrice_field << FIELD_SEPARATOR << std::setw(TAX_FIELD_W);
+    std::cout << rTaxField << FIELD_END << std::endl;
 }
 
 void CashRegister::print_display_header() {
-    std::cout << "| Sale Charges |" << std::endl;
-    print_display_line("Price", "Tax");
+    std::cout << "SALE ITEMS AND TAX" << std::endl;
 }
 
 double CashRegister::get_tax_rate() const {
     return this->tax_rate;
 }
 
-std::string to_money_str(const int cents) {
-    double dollars = cents_to_dollars(cents);
-    std::ostringstream stream;
-    stream << "$" << std::fixed << std::setprecision(2) << dollars;
-    return stream.str();
+std::string CashRegister::to_money_str(const double &dollars) {
+    std::string display_string;
+    if(dollars >= .01) {
+        std::ostringstream stream;
+        stream << "$" << std::fixed << std::setprecision(2) << dollars;
+        display_string = stream.str();
+    }else{
+        display_string = "-";
+    }
+    return display_string;
+}
+
+std::string CashRegister::to_money_str(const int &cents) {
+    std::string display_string = to_money_str(cents_to_dollars(cents));
+    return display_string;
 }
 
 
@@ -154,17 +164,9 @@ CashRegister::Charge::Charge(int price_cents) {
 }
 
 int CashRegister::Charge::get_tax_cents() const {
-    return this->price_cents;
+    return this->tax_cents;
 }
 
 int CashRegister::Charge::get_price_cents() const {
     return this->price_cents;
-}
-
-void CashRegister::Charge::set_amount(const int &amt_cents){
-    this->price_cents = amt_cents;
-}
-
-void CashRegister::Charge::set_tax(const int &new_tax) {
-    this->tax_cents = new_tax;
 }
