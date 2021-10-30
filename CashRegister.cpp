@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ios>
 #include <iomanip>
-#include "CashRegister.h"
+#include "cashregister.h"
 /*
  * Course: Chaffey College 2021-Fall CS2
  * Prof: Dr. Tracy Kocher
@@ -102,7 +102,7 @@ unsigned long long CashRegister::get_count() const {
 }
 
 void CashRegister::display_all() const {
-    print_display_header();
+    print_display_line("Price", "Tax");
     for(const Charge &rC : this->sale){
         print_display_line(rC.get_price_dollars_str(), rC.get_tax_dollars_str());
     }
@@ -113,13 +113,9 @@ void CashRegister::display_all() const {
 }
 
 void CashRegister::print_display_line(const std::string &rPrice_field, const std::string &rTaxField){
-    std::cout << std::fixed << std::right;
+    std::cout << std::fixed << std::left;
     std::cout << FIELD_START << std::setw(PRICE_FIELD_W) << rPrice_field << FIELD_SEPARATOR << std::setw(TAX_FIELD_W);
     std::cout << rTaxField << FIELD_END << std::endl;
-}
-
-void CashRegister::print_display_header() {
-    std::cout << "SALE ITEMS AND TAX" << std::endl;
 }
 
 double CashRegister::get_tax_rate() const {
