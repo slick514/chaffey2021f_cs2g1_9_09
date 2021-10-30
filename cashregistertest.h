@@ -7,11 +7,10 @@
 
 
 #include <string>
-#include "CashRegister.h"
+#include "cashregister.h"
 #include "doeslogging.h"
 
 static const double DEFAULT_TAX = .08;
-static const int  DEFAULT_CHARGE = 0;
 
 class CashRegisterTest : public doeslogging{
 public:
