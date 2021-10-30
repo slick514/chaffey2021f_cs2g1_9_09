@@ -17,7 +17,7 @@ static const char CHOICE_RESET_DAILY_SALES = 'R';
 static const char CHOICE_VIEW_SALES_TOTAL = 'S';
 static const char CHOICE_DAILY_SALES_COUNT = 'D';
 static const char CHOICE_QUIT = 'Q';
-static const string LINE_SEPARATOR = "\n\r-----------------------------\n\r"; //NOLINT
+static const string LINE_SEPARATOR = "\n\r_____________________________\n\r"; //NOLINT
 
 double read_in_double();
 void run_use_register();
@@ -279,15 +279,20 @@ void display_menu_options(const vector<string> &menu_items){
     cout << "OPTIONS" << LINE_SEPARATOR;
 
     for (const string &item : menu_items){
+        bool last = false;
         switch(counter % num_columns){
             case 0:
-                cout << endl << "|  " << setw(field_w) <<  item << "  |";
+                cout << "|  " << setw(field_w) <<  item << "  |";
                 counter = 0;
                 break;
-            case 1:
             case 2:
+                last = true;
+            case 1:
             default: {
                 cout << "  " << setw(field_w) << item << "  |";
+                if(last){
+                    cout << endl;
+                }
             }
         }
         counter ++;
