@@ -8,15 +8,15 @@
 
 #include <string>
 #include "CashRegister.h"
-#include "DoesLogging.h"
+#include "doeslogging.h"
 
 static const double DEFAULT_TAX = .08;
 static const int  DEFAULT_CHARGE = 0;
 
-class CashRegisterTest : public DoesLogging{
+class CashRegisterTest : public doeslogging{
 public:
     int run_tests();
-    class ChargeTest : public DoesLogging{
+    class ChargeTest : public doeslogging{
     public:
         int run_tests();
     private:
@@ -45,7 +45,7 @@ private:
      * @param test_result
      * @return 1 or more if test fails, 0 if it passes
      */
-    static int handle_test(DoesLogging *pLogger, const std::basic_string<char> &test_description, bool test_result);
+    static int handle_test(doeslogging *pLogger, const std::basic_string<char> &test_description, bool test_result);
     int dollars_to_cents_t();
     int cents_to_dollars_t();
     int to_money_str_t();
