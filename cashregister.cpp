@@ -102,6 +102,11 @@ unsigned long long CashRegister::get_count() const {
 }
 
 void CashRegister::display_all() const {
+    if(this->sale.empty()){
+        std::cout << "Sale is empty" << std::endl;
+        return;
+    }
+
     print_display_line("Price", "Tax");
     for(const Charge &rC : this->sale){
         print_display_line(rC.get_price_dollars_str(), rC.get_tax_dollars_str());
