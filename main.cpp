@@ -42,7 +42,7 @@ int main() {
     cout << "The number of logged errors is " << num_errors << endl;
     cout << "Enter '" << CHOICE_VIEW_LOGS << "' to view logs, ";
     cout << "'" << CHOICE_VIEW_ERR_LOGS << "' to view error-logs, " ;
-    cout << "or any other key to exit:" << endl;
+    cout << "or any other key to exit: ";
     cin >> choice;
     switch(evaluate_choice(choice)){
         case CHOICE_VIEW_LOGS:
