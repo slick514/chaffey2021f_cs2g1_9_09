@@ -12,10 +12,10 @@
 
 static const double DEFAULT_TAX = .08;
 
-class CashRegisterTest : public doeslogging{
+class CashRegisterTest : public DoesLogging{
 public:
     int run_tests();
-    class ChargeTest : public doeslogging{
+    class ChargeTest : public DoesLogging{
     public:
         int run_tests();
     private:
@@ -44,7 +44,7 @@ private:
      * @param test_result
      * @return 1 or more if test fails, 0 if it passes
      */
-    static int handle_test(doeslogging *pLogger, const std::basic_string<char> &test_description, bool test_result);
+    static int handle_test(DoesLogging *pLogger, const std::basic_string<char> &test_description, bool test_result);
     int dollars_to_cents_t();
     int cents_to_dollars_t();
     int to_money_str_t();
